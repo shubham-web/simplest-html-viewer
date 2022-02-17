@@ -1,0 +1,22 @@
+* {
+	box-sizing: border-box;
+}
+body {
+	margin: 0;
+	padding: 0;
+}
+.wrapper {
+	width: 100vw;
+	height: 100vh;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr;
+}
+.wrapper > * {
+	border: 2px solid;
+}
+
+#preview > iframe {
+	width: 100%;
+	height: 100%;
+}

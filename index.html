@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Simplest HTML Viewer</title>
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="description" content="VSCode Dark Theme | No Login | Constant Refresh" />
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<link rel="stylesheet" href="./style.css" />
+		<link rel="manifest" href="/manifest.json" />
+		<link rel="stylesheet" data-name="vs/editor/editor.main" href="./monaco-editor/min/vs/editor/editor.main.css" />
+	</head>
+	<body>
+		<div class="wrapper">
+			<div id="codeContainer"></div>
+			<div id="preview">
+				<iframe id="targetFrame" src="" frameborder="0"></iframe>
+			</div>
+		</div>
+
+		<script>
+			window.require = { paths: { vs: "./monaco-editor/min/vs" } };
+		</script>
+		<script src="./monaco-editor/min/vs/loader.js"></script>
+		<script src="./monaco-editor/min/vs/editor/editor.main.nls.js"></script>
+		<script src="./monaco-editor/min/vs/editor/editor.main.js"></script>
+		<script>
+			let targetFrame = document.querySelector("#targetFrame");
+			let editor = monaco.editor.create(document.querySelector("#codeContainer"), {
+				value: atob(
+					`PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KPGhlYWQ+CiAgICA8bWV0YSBjaGFyc2V0PSJVVEYtOCI+CiAgICA8bWV0YSBodHRwLWVxdWl2PSJYLVVBLUNvbXBhdGlibGUiIGNvbnRlbnQ9IklFPWVkZ2UiPgogICAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgogICAgPHRpdGxlPkRvY3VtZW50PC90aXRsZT4KICAgIDxzdHlsZT4KICAgICAgICBodG1sLGJvZHl7CiAgICAgICAgICAgIG1hcmdpbjogMDsKICAgICAgICAgICAgaGVpZ2h0OiAxMDAlOwogICAgICAgICAgICBmb250LWZhbWlseTogc3lzdGVtLXVpLCBzYW5zLXNlcmlmOwogICAgICAgIH0KICAgICAgICBtYWluewogICAgICAgICAgICBkaXNwbGF5OmZsZXg7CiAgICAgICAgICAgIGp1c3RpZnktY29udGVudDpjZW50ZXI7CiAgICAgICAgICAgIGFsaWduLWl0ZW1zOmNlbnRlcjsKICAgICAgICAgICAgaGVpZ2h0OiAxMDAlOwogICAgICAgIH0KICAgIDwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+CiAgICA8bWFpbj4KICAgIDxoMT5QcmV2aWV3IEFyZWE8L2gxPgogICAgPC9tYWluPgo8L2JvZHk+CjwvaHRtbD4=`
+				),
+				language: "html",
+				theme: "vs-dark",
+				minimap: { enabled: false },
+			});
+			const render = () => {
+				targetFrame.srcdoc = editor.getValue();
+			};
+			editor.onDidChangeModelContent((e) => {
+				render();
+			});
+			render();
+		</script>
+	</body>
+</html>
