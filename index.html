@@ -24,22 +24,32 @@
 		<script src="./monaco-editor/min/vs/editor/editor.main.nls.js"></script>
 		<script src="./monaco-editor/min/vs/editor/editor.main.js"></script>
 		<script>
+			let savedCode = localStorage.getItem("savedCode");
+			if (!savedCode) {
+				savedCode = `PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KPGhlYWQ+CiAgICA8bWV0YSBjaGFyc2V0PSJVVEYtOCI+CiAgICA8bWV0YSBodHRwLWVxdWl2PSJYLVVBLUNvbXBhdGlibGUiIGNvbnRlbnQ9IklFPWVkZ2UiPgogICAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgogICAgPHRpdGxlPkRvY3VtZW50PC90aXRsZT4KICAgIDxzdHlsZT4KICAgICAgICBodG1sLGJvZHl7CiAgICAgICAgICAgIG1hcmdpbjogMDsKICAgICAgICAgICAgaGVpZ2h0OiAxMDAlOwogICAgICAgICAgICBmb250LWZhbWlseTogc3lzdGVtLXVpLCBzYW5zLXNlcmlmOwogICAgICAgIH0KICAgICAgICBtYWluewogICAgICAgICAgICBkaXNwbGF5OmZsZXg7CiAgICAgICAgICAgIGp1c3RpZnktY29udGVudDpjZW50ZXI7CiAgICAgICAgICAgIGFsaWduLWl0ZW1zOmNlbnRlcjsKICAgICAgICAgICAgaGVpZ2h0OiAxMDAlOwogICAgICAgIH0KICAgIDwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+CiAgICA8bWFpbj4KICAgIDxoMT5QcmV2aWV3IEFyZWE8L2gxPgogICAgPC9tYWluPgo8L2JvZHk+CjwvaHRtbD4=`;
+			}
+
 			let targetFrame = document.querySelector("#targetFrame");
 			let editor = monaco.editor.create(document.querySelector("#codeContainer"), {
-				value: atob(
-					`PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KPGhlYWQ+CiAgICA8bWV0YSBjaGFyc2V0PSJVVEYtOCI+CiAgICA8bWV0YSBodHRwLWVxdWl2PSJYLVVBLUNvbXBhdGlibGUiIGNvbnRlbnQ9IklFPWVkZ2UiPgogICAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgogICAgPHRpdGxlPkRvY3VtZW50PC90aXRsZT4KICAgIDxzdHlsZT4KICAgICAgICBodG1sLGJvZHl7CiAgICAgICAgICAgIG1hcmdpbjogMDsKICAgICAgICAgICAgaGVpZ2h0OiAxMDAlOwogICAgICAgICAgICBmb250LWZhbWlseTogc3lzdGVtLXVpLCBzYW5zLXNlcmlmOwogICAgICAgIH0KICAgICAgICBtYWluewogICAgICAgICAgICBkaXNwbGF5OmZsZXg7CiAgICAgICAgICAgIGp1c3RpZnktY29udGVudDpjZW50ZXI7CiAgICAgICAgICAgIGFsaWduLWl0ZW1zOmNlbnRlcjsKICAgICAgICAgICAgaGVpZ2h0OiAxMDAlOwogICAgICAgIH0KICAgIDwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+CiAgICA8bWFpbj4KICAgIDxoMT5QcmV2aWV3IEFyZWE8L2gxPgogICAgPC9tYWluPgo8L2JvZHk+CjwvaHRtbD4=`
-				),
+				value: atob(savedCode),
 				language: "html",
 				theme: "vs-dark",
 				minimap: { enabled: false },
+				fontSize: "18px",
 			});
 			const render = () => {
-				targetFrame.srcdoc = editor.getValue();
+				let value = editor.getValue();
+				targetFrame.srcdoc = value;
+				localStorage.setItem("savedCode", btoa(value));
 			};
 			editor.onDidChangeModelContent((e) => {
 				render();
 			});
 			render();
+			window.addEventListener("resize", () => {
+				editor.layout();
+			});
+			document.addEventListener("keydown", (e) => {});
 		</script>
 	</body>
 </html>

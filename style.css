@@ -13,7 +13,7 @@ body {
 	grid-template-rows: 1fr;
 }
 .wrapper > * {
-	border: 2px solid;
+	width: 50vw;
 }
 
 #preview > iframe {
